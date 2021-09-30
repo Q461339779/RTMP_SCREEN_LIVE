@@ -14,7 +14,9 @@ public class ScreenLive implements Runnable{
     private String url;
     private MediaProjectionManager manager;
     private MediaProjection mediaProjection;
-
+    static {
+        System.loadLibrary("native-lib");
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void startLive(String url, Activity activity) {
@@ -35,11 +37,14 @@ public class ScreenLive implements Runnable{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void run() {
         if (!connect(url)){
             return;
         }
+        VideoCodec videoCodec = new VideoCodec();
+        videoCodec.startLive(mediaProjection);
 
     }
 
